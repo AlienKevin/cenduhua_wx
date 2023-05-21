@@ -1,7 +1,7 @@
 // app.ts
 App<IAppOption>({
   globalData: {
-    serverUrl: 'http://localhost:8080',
+    serverUrl: 'http://47.92.240.209:8080',
     searchResult: null,
   },
 });

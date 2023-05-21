@@ -38,6 +38,8 @@ interface IAppOption {
   searchEntry: (keyword: string, callback: (result: SearchResult) => void) => void;
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 Page<IData, {}>({
   data: {
     searchResult: null,
@@ -95,7 +97,7 @@ Page<IData, {}>({
       wx.hideLoading();
       if (result.entries) {
         let audioUrls: Record<number, string> = {};
-        result.entries.forEach(entry => {
+        result.entries.forEach(async entry => {
           // Make a request to the server to fetch the m4a audio
           getAudioUrl(entry.id)
           .then((res: { audioUrl: string }) => {
@@ -105,6 +107,7 @@ Page<IData, {}>({
           .catch((err: any) => {
             console.error('Failed to fetch audio:', err);
           });
+          await sleep(10); 
         });
         // Save the audio URL in the page data
         this.setData({
