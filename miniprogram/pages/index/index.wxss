@@ -21,10 +21,6 @@ input {
   flex: 1;
 }
 
-button {
-  margin-left: 10px;
-}
-
 .result-list {
   margin-top: 20px;
 }

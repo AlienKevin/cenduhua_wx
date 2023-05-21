@@ -17,7 +17,10 @@
       <text class="word">{{item.word}}</text>
       <text class="category"> {{item.category}}</text>
     </view>
-    <text>{{item.pinyin}}</text>
+    <view>
+      <text>{{item.pinyin}} </text>
+      <button bindtap="onPlay" id="player-{{item.id}}" size="mini">📢</button>
+    </view>
     <view class="definition" wx:for="{{item.definitions}}" wx:for-index="index">
       <text><text wx:if="{{index == 0}}">①</text><text wx:if="{{index == 1}}">②</text><text wx:if="{{index == 2}}">③</text><text wx:if="{{index == 3}}">④</text><text wx:if="{{index == 4}}">⑤</text><text wx:if="{{index == 5}}">⑥</text><text wx:if="{{index == 6}}">⑦</text><text wx:if="{{index == 7}}">⑧</text><text wx:if="{{index == 8}}">⑨</text><text wx:if="{{index == 9}}">⑩</text> {{item.definition}}</text>
       <view wx:for="{{item.examples}}" wx:for-index="index" style="margin-left: 10px">

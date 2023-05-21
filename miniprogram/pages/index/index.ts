@@ -28,7 +28,7 @@ interface Definition {
 interface IData {
   searchResult: SearchResult | null;
   keyword: string;
-  audioUrl: string;
+  audioUrls: Record<number, string>;
 }
 
 interface IAppOption {
@@ -42,7 +42,7 @@ Page<IData, {}>({
   data: {
     searchResult: null,
     keyword: '',
-    audioUrl: '',
+    audioUrls: {},
   },
   
   onKeywordInput(event: any): void {
@@ -52,6 +52,27 @@ Page<IData, {}>({
         keyword: event.detail.value
       });
     }
+  },
+
+  onPlay(event: WechatMiniprogram.TouchEvent): void {
+    let id = parseInt(event.currentTarget.id.replace("player-", ""));
+    // Create an inner audio context
+    const audioContext = wx.createInnerAudioContext({
+      useWebAudioImplement: true,
+    });
+
+    // Set the audio URL
+    console.log("id: " + id);
+    console.log(this.data.audioUrls[id]);
+    audioContext.src = this.data.audioUrls[id];
+
+    // Start playing the audio
+    audioContext.play();
+
+    // Save the audio context in the page data
+    this.setData({
+      audioContext: audioContext,
+    });
   },
   
   onSearch(): void {
@@ -72,6 +93,24 @@ Page<IData, {}>({
     console.log("Searching keyword: " + keyword);
     search(keyword, (result: SearchResult): void => {
       wx.hideLoading();
+      if (result.entries) {
+        let audioUrls: Record<number, string> = {};
+        result.entries.forEach(entry => {
+          // Make a request to the server to fetch the m4a audio
+          getAudioUrl(entry.id)
+          .then((res: { audioUrl: string }) => {
+            console.log("audioUrl:", res.audioUrl);
+            audioUrls[entry.id] = res.audioUrl;
+          })
+          .catch((err: any) => {
+            console.error('Failed to fetch audio:', err);
+          });
+        });
+        // Save the audio URL in the page data
+        this.setData({
+          audioUrls: audioUrls,
+        });
+      }
       this.setData({
         searchResult: result
       });
@@ -80,37 +119,6 @@ Page<IData, {}>({
 });
 
 /*
-// Make a request to the server to fetch the m4a audio
-getAudioUrl(fileId)
-.then((res: { audioUrl: string }) => {
-  console.log("audioUrl:", res.audioUrl)
-  // Save the audio URL in the page data
-  this.setData({
-    audioUrl: res.audioUrl,
-  });
-})
-.catch((err: any) => {
-  console.error('Failed to fetch audio:', err);
-});
-  playAudio() {
-    console.log("playAudio");
-    // Create an inner audio context
-    const audioContext = wx.createInnerAudioContext({
-      useWebAudioImplement: true,
-    });
-
-    // Set the audio URL
-    console.log(this.data.audioUrl);
-    audioContext.src = this.data.audioUrl;
-
-    // Start playing the audio
-    audioContext.play();
-
-    // Save the audio context in the page data
-    this.setData({
-      audioContext: audioContext,
-    });
-  },
 
   onUnload() {
     const audioContext = this.data.audioContext;
