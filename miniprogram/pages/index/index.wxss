@@ -1,0 +1,49 @@
+/* index.wxss */
+
+.container {
+  padding: 20px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+input {
+  flex: 3;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+}
+
+#search-button {
+  flex: 1;
+}
+
+button {
+  margin-left: 10px;
+}
+
+.result-list {
+  margin-top: 20px;
+}
+
+.result-item {
+  margin-right: auto;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.word {
+  font-weight: bold;
+}
+
+.category {
+  color: #999;
+}
+
+.definition {
+  margin-top: 10px;
+}

@@ -1,0 +1,32 @@
+<!-- index.wxml -->
+
+<view class="container">
+  <view class="search-bar">
+    <input bindinput="onKeywordInput" placeholder="输入汉字或拼音"></input>
+    <button bindtap="onSearch" id="search-button">搜索</button>
+  </view>
+  <view wx:if="{{searchResult.notFound}}" class="no-result">
+    找不到{{keyword}}
+  </view>
+  <view wx:if="{{searchResult.prs}}" style="margin-right: auto;">
+    <text>发音:</text>
+    <text wx:for="{{searchResult.prs}}"> {{item}}</text>
+  </view>
+  <view wx:if="{{searchResult.entries}}" class="result-item" wx:for="{{searchResult.entries}}">
+    <view>
+      <text class="word">{{item.word}}</text>
+      <text class="category"> {{item.category}}</text>
+    </view>
+    <text>{{item.pinyin}}</text>
+    <view class="definition" wx:for="{{item.definitions}}" wx:for-index="index">
+      <text><text wx:if="{{index == 0}}">①</text><text wx:if="{{index == 1}}">②</text><text wx:if="{{index == 2}}">③</text><text wx:if="{{index == 3}}">④</text><text wx:if="{{index == 4}}">⑤</text><text wx:if="{{index == 5}}">⑥</text><text wx:if="{{index == 6}}">⑦</text><text wx:if="{{index == 7}}">⑧</text><text wx:if="{{index == 8}}">⑨</text><text wx:if="{{index == 9}}">⑩</text> {{item.definition}}</text>
+      <view wx:for="{{item.examples}}" wx:for-index="index" style="margin-left: 10px">
+        <text >{{index + 1}}. {{item}}</text>
+      </view>
+    </view>
+  </view>
+  <text wx:if="{{searchResult === null}}" style="margin-right: auto">搜索示例
+    汉字：花姑娘儿
+    拼音：hua gu niangr
+  </text>
+</view>
