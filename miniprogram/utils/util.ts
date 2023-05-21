@@ -22,24 +22,42 @@ interface GetAudioUrlResponse {
   audioUrl: string;
 }
 
-export function getAudioUrl(fileId: number): Promise<GetAudioUrlResponse> {
-  // Return a promise to simulate an asynchronous HTTP request
+export function getAudioUrl(fileId: number, maxRetries: number = 3): Promise<GetAudioUrlResponse> {
   return new Promise((resolve, reject) => {
-    wx.downloadFile({
-      url: `${getApp().globalData.serverUrl}/audio/${fileId}`,
-      success: (res) => {
-        if (res.statusCode === 200) {
-          resolve({ audioUrl: res.tempFilePath });
-        } else {
-          reject(new Error(`Failed to download audio. Status code: ${res.statusCode}`));
-        }
-      },
-      fail: (err) => {
-        reject(new Error(`Failed to download audio: ${err.errMsg}`));
-      },
-    });
+    const download = (retryCount: number) => {
+      wx.downloadFile({
+        url: `${getApp().globalData.serverUrl}/audio/${fileId}`,
+        success: (res) => {
+          if (res.statusCode === 200) {
+            resolve({ audioUrl: res.tempFilePath });
+          } else {
+            const error = new Error(`Failed to download audio. Status code: ${res.statusCode}`);
+            if (retryCount < maxRetries) {
+              retryCount++;
+              console.log(`Retrying (${retryCount}/${maxRetries})...`);
+              download(retryCount);
+            } else {
+              reject(error);
+            }
+          }
+        },
+        fail: (err) => {
+          const error = new Error(`Failed to download audio: ${err.errMsg}`);
+          if (retryCount < maxRetries) {
+            retryCount++;
+            console.log(`Retrying (${retryCount}/${maxRetries})...`);
+            download(retryCount);
+          } else {
+            reject(error);
+          }
+        },
+      });
+    };
+
+    download(0);
   });
 }
+
 
   
 export function search(keyword: string, callback: (result: Record<string, any>) => void): void {
