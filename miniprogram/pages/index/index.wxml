@@ -29,7 +29,7 @@
     </view>
   </view>
   <text wx:if="{{searchResult === null}}" style="margin-right: auto">搜索示例
-    汉字：花姑娘儿
-    拼音：hua gu niangr
+    汉字：巴适
+    拼音：ba si
   </text>
 </view>
