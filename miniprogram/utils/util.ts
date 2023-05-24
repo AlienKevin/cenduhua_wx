@@ -25,8 +25,8 @@ interface GetAudioUrlResponse {
 export function getAudioUrl(fileId: number, maxRetries: number = 3): Promise<GetAudioUrlResponse> {
   return new Promise((resolve, reject) => {
     const download = (retryCount: number) => {
-      wx.downloadFile({
-        url: `${getApp().globalData.serverUrl}/audio/${fileId}`,
+      wx.cloud.downloadFile({
+        fileID: `cloud://server-0gti088gd0c65630.7365-server-0gti088gd0c65630-1318372019/sounds/${fileId}.mp3`,
         success: (res) => {
           if (res.statusCode === 200) {
             resolve({ audioUrl: res.tempFilePath });
@@ -50,7 +50,7 @@ export function getAudioUrl(fileId: number, maxRetries: number = 3): Promise<Get
           } else {
             reject(error);
           }
-        },
+        }
       });
     };
 
@@ -62,14 +62,22 @@ export function getAudioUrl(fileId: number, maxRetries: number = 3): Promise<Get
   
 export function search(keyword: string, callback: (result: Record<string, any>) => void): void {
   // Simulate API call to retrieve search results
-  wx.request({
-    url: `${getApp().globalData.serverUrl}/search/${keyword}`,
-    success: function(res) {
-      callback(res.data as Record<string, any>);
+  let res = wx.cloud.callContainer({
+    "config": {
+      "env": "server-0gti088gd0c65630"
     },
-    fail: function(res) {
-      console.error(res);
+    "path": `/search/${keyword}`,
+    "header": {
+      "X-WX-SERVICE": "cenduhua",
+      "content-type": "application/json"
+    },
+    "method": "GET",
+    "data": ""
+  });
+  res.then((res) => {
+    callback(res.data as Record<string, any>);
+  }).catch((err) => {
+      console.error(err);
       callback({ notFound: true });
-    }
   });
 }

@@ -2,7 +2,6 @@
 
 interface IAppOption {
   globalData: {
-    serverUrl: string,
     searchResult: null
   },
 }

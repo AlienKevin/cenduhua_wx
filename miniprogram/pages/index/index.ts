@@ -46,6 +46,13 @@ Page<IData, {}>({
     keyword: '',
     audioUrls: {},
   },
+
+  onLoad() {
+    wx.cloud.init({
+      env: 'test-x1dzi',
+      traceUser: true,
+    });    
+  },
   
   onKeywordInput(event: any): void {
     if (event.detail.value !== this.data.keyword) {
