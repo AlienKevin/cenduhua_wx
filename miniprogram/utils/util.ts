@@ -66,7 +66,7 @@ export function search(keyword: string, callback: (result: Record<string, any>) 
     "config": {
       "env": "server-0gti088gd0c65630"
     },
-    "path": `/search/${keyword}`,
+    "path": `/search/${encodeURIComponent(keyword)}`,
     "header": {
       "X-WX-SERVICE": "cenduhua",
       "content-type": "application/json"
