@@ -28,8 +28,21 @@
       </view>
     </view>
   </view>
-  <text wx:if="{{searchResult === null}}" style="margin-right: auto">搜索示例
-    汉字：巴适
-    拼音：ba si
-  </text>
+
+  <view class="divider"></view>
+
+  <text class="title">按分类浏览</text>
+  
+  <view class="category-list">
+    <block wx:for="{{categories}}" wx:key="index">
+      <view class="category-item">
+        <view class="category-name">{{item.name}}</view>
+        <view class="subcategory-list">
+          <block wx:for="{{item.subcategories}}" wx:key="index">
+            <view class="subcategory-badge mui-badge">{{item}}</view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
 </view>

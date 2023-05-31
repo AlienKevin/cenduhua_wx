@@ -25,10 +25,16 @@ interface Definition {
   examples: string[];
 }
 
+type Category = {
+  name: string;
+  subcategories: string[];
+};
+
 interface IData {
   searchResult: SearchResult | null;
   keyword: string;
   audioUrls: Record<number, string>;
+  categories: Category[];
 }
 
 interface IAppOption {
@@ -45,6 +51,67 @@ Page<IData, {}>({
     searchResult: null,
     keyword: '',
     audioUrls: {},
+    categories: [
+      {
+        "name": "自然科学",
+        "subcategories": [
+          "天文",
+          "气象",
+          "地理",
+          "农业",
+          "植物",
+          "动物"
+        ]
+      },
+      {
+        "name": "风俗习惯",
+        "subcategories": [
+          "时间、节令",
+          "人品",
+          "亲属称谓",
+          "婚育",
+          "丧葬"
+        ]
+      },
+      {
+        "name": "人体与健康",
+        "subcategories": [
+          "人体",
+          "人体动作",
+          "疾病、医药"
+        ]
+      },
+      {
+        "name": "生活方式与文化",
+        "subcategories": [
+          "器具",
+          "饮食",
+          "房舍",
+          "服饰",
+          "交通、邮电",
+          "商业",
+          "学校教育",
+          "祭祀",
+          "文体娱乐"
+        ]
+      },
+      {
+        "name": "语言与交流",
+        "subcategories": [
+          "交际",
+          "一般动作",
+          "一般名物",
+          "性质、感觉、状态、颜色",
+          "方位",
+          "指代",
+          "量词",
+          "副词",
+          "介词",
+          "连词、助词",
+          "熟语"
+        ]
+      }
+    ]
   },
 
   onLoad() {

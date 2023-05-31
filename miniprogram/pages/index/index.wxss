@@ -43,3 +43,50 @@ input {
 .definition {
   margin-top: 10px;
 }
+
+.title {
+  margin-right: auto;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.category-list {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category-item {
+  margin-right: 16px;
+  margin-bottom: 16px;
+}
+
+.category-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.subcategory-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.subcategory-badge {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  background-color: #e0e0e0;
+  color: #424242;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: #e0e0e0;
+}
